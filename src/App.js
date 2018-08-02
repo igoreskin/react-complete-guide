@@ -7,25 +7,28 @@ class App extends Component {
 
   state = {
     persons: [
-      {name: 'Max', age: 28},
-      {name: 'Manu', age: 29},
-      {name: 'Stephanie', age: 26}
+      {id: 'asfa1', name: 'Max', age: 28},
+      {id: 'vasdf1', name: 'Manu', age: 29},
+      {id: 'asdf11', name: 'Stephanie', age: 26}
     ]
   }
 
 
-  nameChangeHandler = (event) => {
-    this.setState ({persons: [
-      {name: 'Max', age: 28},
-      {name: event.target.value, age: 29},
-      {name: 'Stephanie', age: 27}
-    ],
-    showPersons: false,
+  nameChangeHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    })
+    const person = {...this.state.persons[personIndex]}; // using the spread operator to create a copy of a person object, without mutating it
+    person.name = event.target.value;
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState ({persons: persons,
+    // showPersons: false,
     })
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = [...this.state.persons]; // this is to create a copy of persons, i.e. without mutating the state 
+    const persons = [...this.state.persons]; // this is to create a copy of persons, i.e. without mutating the state
     persons.splice(personIndex, 1);
     this.setState({persons: persons})
   }
@@ -49,7 +52,12 @@ class App extends Component {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person click={() => this.deletePersonHandler(index)} name={person.name} age={person.age} />
+            return <Person
+            click={() => this.deletePersonHandler(index)}
+            name={person.name}
+            age={person.age}
+            key={person.id}
+            changed={(event) => this.nameChangeHandler(event, person.id)} />
           })}
         </div>
       )
