@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import classes from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
-import withClass from '../hoc/withClass';
+import withClass from '../hoc/WithClass';
 import Auxil from '../hoc/Auxil';
 
 class App extends PureComponent {
